@@ -97,16 +97,26 @@ class Donkey(Minigame):
         self.gamekb=types.InlineKeyboardMarkup(self.size[1])
         g=1
         d=self.dplace
+        dots=[]
+        for ids in self.players:
+            if self.players[ids].choice!=None:
+                dots.append([self.players[ids], self.players[ids].choice])
         while g<=self.size[0]:
             print('g='+str(g))
             buttons=[]
             v=1
+            t=0
             while v<=self.size[1]:
                 print('v='+str(v))
-                if str(g)+str(v)!=d:
-                    txt=self.button
-                else:
+                for ids in dots:
+                    if ids[1]==str(g)+str(v):
+                        txt=ids[0].emoji
+                        t=1
+                if str(g)+str(v)==d:
                     txt=self.donkey
+                    t=1
+                if t==0:
+                    txt=self.button
                 buttons.append(types.InlineKeyboardButton(text=txt, callback_data=self.code+' '+str(g)+str(v)))
                 v+=1
             self.gamekb.add(*buttons)
