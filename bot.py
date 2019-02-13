@@ -82,6 +82,8 @@ class Donkey(Minigame):
         
         
     def draw(self):
+        self.gamekb=None
+        self.gamekb=types.InlineKeyboardMarkup(self.size[1])
         g=1
         d=self.dplace
         while g<=self.size[0]:
@@ -102,8 +104,6 @@ class Donkey(Minigame):
             medit('Угадайте, куда пойдёт осёл:', self.message.chat.id, self.message.message_id, reply_markup=self.gamekb)
         else:
             self.message=bot.send_message(self.id, 'Угадайте, куда пойдёт осёл:', reply_markup=self.gamekb)
-        self.gamekb=None
-        self.gamekb=types.InlineKeyboardMarkup(self.size[1])
         
         
     def movedonkey(self):
