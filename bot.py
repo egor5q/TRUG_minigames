@@ -33,7 +33,7 @@ class Minigame:
         self.kb.add(types.InlineKeyboardButton(text='Присоединиться', callback_data='join'))
         self.text='None'
         self.started=False
-        self.gamekb=types.InlineKeyboardMarkup(5)
+        self.gamekb=types.InlineKeyboardMarkup(4)
         self.message=None
         
 
@@ -46,12 +46,13 @@ class Donkey(Minigame):
         self.code='donkey'
         self.playernumber=1
         self.winscore=2
-        self.size=[5, 5]
+        self.size=[4, 4]
         self.button='⬜️'
         self.data='null'
         self.donkey='🐴'
         self.dplace=None
         self.dspeed=2
+        self.turn=1
         self.text='Идёт набор в игру! Требуется игроков: '+str(self.playernumber)
         if currentgame==[]:
             bot.send_message(self.id, self.text, reply_markup=self.kb)
@@ -73,13 +74,14 @@ class Donkey(Minigame):
         else:
             d=self.dplace
         self.draw()
-        t=threading.Timer(5, self.endturn)
-        t.start()
+        self.timer=threading.Timer(5, self.endturn)
+        self.timer.start()
         
     def endturn(self):
         self.movedonkey()
         self.timer=threading.Timer(5, self.begin)
         self.timer.start()
+        self.turn+=1
         
         
     def draw(self):
@@ -104,7 +106,7 @@ class Donkey(Minigame):
         if self.message!=None:
             medit('Угадайте, куда пойдёт осёл:', self.message.chat.id, self.message.message_id, reply_markup=self.gamekb)
         else:
-            self.message=bot.send_message(self.id, 'Угадайте, куда пойдёт осёл:', reply_markup=self.gamekb)
+            self.message=bot.send_message(self.id, 'Угадайте, куда пойдёт осёл.\n\nТекущий ход: '+str(self.turn), reply_markup=self.gamekb)
         
         
     def movedonkey(self):
