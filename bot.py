@@ -87,8 +87,10 @@ class Donkey(Minigame):
         v=1
         d=self.dplace
         while g<=self.size[0]:
+            print('g='+str(g))
             buttons=[]
             while v<=self.size[1]:
+                print('v='+str(v))
                 if str(g)+str(v)!=d:
                     txt=self.button
                 else:
@@ -109,7 +111,7 @@ class Donkey(Minigame):
             x=random.choice(x)
             dg=self.dplace[0]
             dv=self.dplace[1]
-            site=random.choice('g', 'v')
+            site=random.choice(['g', 'v'])
             if site=='g':
                 dg+=x
                 if dg>self.size[0]:
