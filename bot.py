@@ -72,6 +72,8 @@ class Donkey(Minigame):
             self.dplace=d
         else:
             d=self.dplace
+        self.gamekb=None
+        self.gamekb=types.InlineKeyboardMarkup()
         self.draw()
         self.timer=threading.Timer(8, self.endturn)
         self.timer.start()
