@@ -127,7 +127,7 @@ class Donkey(Minigame):
                     dv=1
                 if dv<1:
                     dv=self.size[1]
-            
+            self.dplace=str(dg)+str(dv)
             i+=1
             self.draw()
             time.sleep(1)
