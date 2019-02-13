@@ -45,14 +45,16 @@ class Donkey(Minigame):
         self.code='donkey'
         self.playernumber=1
         self.winscore=2
+        self.emojis=['⚫️','🔴','🔵']
         self.size=[5, 5]    # Горизонталь; вертикаль
         self.gamekb=types.InlineKeyboardMarkup(self.size[1])
         self.button='⬜️'
         self.data='null'
         self.donkey='🐴'
         self.dplace=None
-        self.dspeed=4
+        self.dspeed=2
         self.turn=1
+        self.stage=None
         self.text='Идёт набор в игру! Требуется игроков: '+str(self.playernumber)
         if currentgame==[]:
             bot.send_message(self.id, self.text, reply_markup=self.kb)
@@ -73,12 +75,18 @@ class Donkey(Minigame):
             self.dplace=d
         else:
             d=self.dplace
+        self.stage=1
         self.draw()
         self.timer=threading.Timer(5, self.endturn)
         self.timer.start()
         
     def endturn(self):
+        self.stage=2
         self.movedonkey()
+        for ids in self.players:
+            if self.players[ids].choice==self.dplace:
+                self.players[ids].score+=1
+            self.players[ids].choice=None
         self.timer=threading.Timer(5, self.begin)
         self.timer.start()
         self.turn+=1
@@ -103,10 +111,13 @@ class Donkey(Minigame):
                 v+=1
             self.gamekb.add(*buttons)
             g+=1
+        scores=''
+        for ids in self.players:
+            scores+=self.players[ids].name+': '+str(self.players[ids].score)+'\n'
         if self.message!=None:
-            medit('Угадайте, куда пойдёт осёл:\n\nТекущий ход: '+str(self.turn), self.message.chat.id, self.message.message_id, reply_markup=self.gamekb)
+            medit('Угадайте, куда пойдёт осёл.\n\nТекущий ход: '+str(self.turn)+'\nСтадия: '+str(self.stage)+'\nОчки игроков:\n\n'+scores, self.message.chat.id, self.message.message_id, reply_markup=self.gamekb)
         else:
-            self.message=bot.send_message(self.id, 'Угадайте, куда пойдёт осёл.\n\nТекущий ход: '+str(self.turn), reply_markup=self.gamekb)
+            self.message=bot.send_message(self.id, 'Угадайте, куда пойдёт осёл.\n\nТекущий ход: '+str(self.turn)+'\nСтадия: '+str(self.stage)+'\nОчки игроков:\n\n'+scores, reply_markup=self.gamekb)
         
         
     def movedonkey(self):
@@ -163,15 +174,24 @@ def test(m):
 @bot.callback_query_handler(func=lambda call:True)
 def inline(call): 
     try:
+        game=currentgame[0]
         user=call.from_user
         if call.data=='join':
-            game=currentgame[0]
             if game.started==False and len(game.players)<game.playernumber:
                 if user.id not in game.players:
                     game.players.update({user.id:Player(user)})
+                    x=random.choice(game.emojis)
+                    game.players[user.id].emoji=x
+                    game.emojis.remove(x)
                     bot.send_message(call.message.chat.id, user.first_name+' присоединился!')
                     if len(game.players)==game.playernumber:
                         game.begin()
+        elif 'donkey' in call.data:
+            if game.stage==1:
+                game.players[user.id].choice=call.data.split(' ')[1]
+                bot.answer_callback_query(call.id, '✅Точка выбрана!')
+            else:
+                bot.answer_callback_query(call.id, '❌Ждите стадии 1!')
     except Exception as e:
           print('Ошибка:\n', traceback.format_exc())
           bot.send_message(441399484, traceback.format_exc())
