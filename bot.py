@@ -33,7 +33,6 @@ class Minigame:
         self.kb.add(types.InlineKeyboardButton(text='Присоединиться', callback_data='join'))
         self.text='None'
         self.started=False
-        self.gamekb=types.InlineKeyboardMarkup(4)
         self.message=None
         
 
@@ -46,12 +45,13 @@ class Donkey(Minigame):
         self.code='donkey'
         self.playernumber=1
         self.winscore=2
-        self.size=[4, 4]
+        self.size=[5, 5]    # Горизонталь; вертикаль
+        self.gamekb=types.InlineKeyboardMarkup(self.size[1])
         self.button='⬜️'
         self.data='null'
         self.donkey='🐴'
         self.dplace=None
-        self.dspeed=2
+        self.dspeed=4
         self.turn=1
         self.text='Идёт набор в игру! Требуется игроков: '+str(self.playernumber)
         if currentgame==[]:
