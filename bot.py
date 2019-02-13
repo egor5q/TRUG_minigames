@@ -104,7 +104,7 @@ class Donkey(Minigame):
             self.gamekb.add(*buttons)
             g+=1
         if self.message!=None:
-            medit('Угадайте, куда пойдёт осёл:', self.message.chat.id, self.message.message_id, reply_markup=self.gamekb)
+            medit('Угадайте, куда пойдёт осёл:\n\nТекущий ход: '+str(self.turn), self.message.chat.id, self.message.message_id, reply_markup=self.gamekb)
         else:
             self.message=bot.send_message(self.id, 'Угадайте, куда пойдёт осёл.\n\nТекущий ход: '+str(self.turn), reply_markup=self.gamekb)
         
@@ -120,15 +120,15 @@ class Donkey(Minigame):
             if site=='g':
                 dg+=x
                 if dg>self.size[0]:
-                    dg=1
+                    dg-=2
                 if dg<1:
-                    dg=self.size[0]
+                    dg+=1
             elif site=='v':
                 dv+=x
                 if dv>self.size[1]:
-                    dv=1
+                    dv-=2
                 if dv<1:
-                    dv=self.size[1]
+                    dv+=2
             self.dplace=str(dg)+str(dv)
             print('self.dplace= '+self.dplace)
             i+=1
