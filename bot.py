@@ -43,7 +43,7 @@ class Donkey(Minigame):
         super().__init__(id)
         self.name='Поймай осла'
         self.code='donkey'
-        self.playernumber=1
+        self.playernumber=3
         self.winscore=2
         self.emojis=['⚫️','🔴','🔵']
         self.size=[5, 5]    # Горизонталь; вертикаль
@@ -55,14 +55,17 @@ class Donkey(Minigame):
         self.dspeed=2
         self.turn=1
         self.stage=None
+        self.timer=None
         self.text='Идёт набор в игру! Требуется игроков: '+str(self.playernumber)
         if currentgame==[]:
             bot.send_message(self.id, self.text, reply_markup=self.kb)
             currentgame.append(self)
         else:
-            currentgame[0].timer.cancel()
+            if currentgame[0].timer!=None:
+                currentgame[0].timer.cancel()
             currentgame=[]
             bot.send_message(self.id, 'Предыдущая игра была удалена!')
+            bot.send_message(self.id, self.text, reply_markup=self.kb)
             currentgame.append(self)
         
     def begin(self):
