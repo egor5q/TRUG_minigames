@@ -10,6 +10,9 @@ from pymongo import MongoClient
 token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
 
+def medit(message_text,chat_id, message_id,reply_markup=None,parse_mode=None):
+    return bot.edit_message_text(chat_id=chat_id,message_id=message_id,text=message_text,reply_markup=reply_markup,
+                                 parse_mode=parse_mode)  
 
 #client=MongoClient(os.environ['database'])
 #db=client.trugminigames
@@ -149,16 +152,19 @@ def test(m):
    
 @bot.callback_query_handler(func=lambda call:True)
 def inline(call): 
-    user=call.from_user
-    if call.data=='join':
-        game=currentgame[0]
-        if game.started==False and len(game.players)<game.playernumber:
-            if user.id not in game.players:
-                game.players.update({user.id:Player(user)})
-                bot.send_message(self.id, user.first_name+' присоединился!')
-                if len(game.players)==game.playernumber:
-                    game.begin()
-            
+    try:
+        user=call.from_user
+        if call.data=='join':
+            game=currentgame[0]
+            if game.started==False and len(game.players)<game.playernumber:
+                if user.id not in game.players:
+                    game.players.update({user.id:Player(user)})
+                    bot.send_message(self.id, user.first_name+' присоединился!')
+                    if len(game.players)==game.playernumber:
+                        game.begin()
+    except Exception as e:
+          print('Ошибка:\n', traceback.format_exc())
+          bot.send_message(441399484, traceback.format_exc())
         
 
 print('7777')
