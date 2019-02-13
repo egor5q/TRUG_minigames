@@ -33,7 +33,7 @@ class Minigame:
         self.kb.add(types.InlineKeyboardButton(text='Присоединиться', callback_data='join'))
         self.text='None'
         self.started=False
-        self.gamekb=types.InlineKeyboardMarkup()
+        self.gamekb=types.InlineKeyboardMarkup(5)
         self.message=None
         
 
