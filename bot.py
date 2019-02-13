@@ -44,7 +44,7 @@ class Donkey(Minigame):
         super().__init__(id)
         self.name='Поймай осла'
         self.code='donkey'
-        self.playernumber=3
+        self.playernumber=1
         self.winscore=2
         self.size=[5, 5]
         self.button='⬛️'
