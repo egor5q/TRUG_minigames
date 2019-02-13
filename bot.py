@@ -6,6 +6,7 @@ import threading
 from emoji import emojize
 from telebot import types
 from pymongo import MongoClient
+import traceback
 
 token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
@@ -159,7 +160,7 @@ def inline(call):
             if game.started==False and len(game.players)<game.playernumber:
                 if user.id not in game.players:
                     game.players.update({user.id:Player(user)})
-                    bot.send_message(self.id, user.first_name+' присоединился!')
+                    bot.send_message(call.chat.id, user.first_name+' присоединился!')
                     if len(game.players)==game.playernumber:
                         game.begin()
     except Exception as e:
