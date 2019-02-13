@@ -50,7 +50,7 @@ class Donkey(Minigame):
         self.dspeed=2
         self.text='Идёт набор в игру! Требуется игроков: '+str(self.playernumber)
         if currentgame==[]:
-            bot.send_message(self.id, text, reply_markup=self.kb)
+            bot.send_message(self.id, self.text, reply_markup=self.kb)
             currentgame.append(self)
         else:
             currentgame[0].timer.cancel()
