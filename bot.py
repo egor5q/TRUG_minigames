@@ -11,9 +11,9 @@ token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(token)
 
 
-client=MongoClient(os.environ['database'])
-db=client.trugminigames
-users=db.users
+#client=MongoClient(os.environ['database'])
+#db=client.trugminigames
+#users=db.users
 
 allgames=['donkey']
 currentgame=[]
