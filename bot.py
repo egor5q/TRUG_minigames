@@ -63,7 +63,7 @@ class Donkey(Minigame):
             currentgame.append(self)
         
     def begin(self):
-        if self.dplace==[]:
+        if self.dplace==None:
             g=1    # Горизонталь
             v=1    # Вертикаль
             dv=random.randint(1,self.size[1])  # v осла
