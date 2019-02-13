@@ -103,7 +103,7 @@ class Donkey(Minigame):
         else:
             self.message=bot.send_message(self.id, 'Угадайте, куда пойдёт осёл:', reply_markup=self.gamekb)
         self.gamekb=None
-        self.gamekb=types.InlineKeyboardMarkup()
+        self.gamekb=types.InlineKeyboardMarkup(self.size[1])
         
         
     def movedonkey(self):
