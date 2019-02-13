@@ -122,7 +122,7 @@ class Donkey(Minigame):
                 if dg>self.size[0]:
                     dg-=2
                 if dg<1:
-                    dg+=1
+                    dg+=2
             elif site=='v':
                 dv+=x
                 if dv>self.size[1]:
