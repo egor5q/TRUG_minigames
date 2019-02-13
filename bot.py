@@ -47,7 +47,7 @@ class Donkey(Minigame):
         self.playernumber=1
         self.winscore=2
         self.size=[5, 5]
-        self.button='.'
+        self.button='⬜️'
         self.data='null'
         self.donkey='🐴'
         self.dplace=None
@@ -72,8 +72,6 @@ class Donkey(Minigame):
             self.dplace=d
         else:
             d=self.dplace
-        self.gamekb=None
-        self.gamekb=types.InlineKeyboardMarkup()
         self.draw()
         self.timer=threading.Timer(8, self.endturn)
         self.timer.start()
@@ -105,6 +103,9 @@ class Donkey(Minigame):
             medit('Угадайте, куда пойдёт осёл:', self.message.chat.id, self.message.message_id, reply_markup=self.gamekb)
         else:
             self.message=bot.send_message(self.id, 'Угадайте, куда пойдёт осёл:', reply_markup=self.gamekb)
+        self.gamekb=None
+        self.gamekb=types.InlineKeyboardMarkup()
+        
         
     def movedonkey(self):
         i=0
