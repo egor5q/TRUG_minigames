@@ -50,7 +50,7 @@ class Donkey(Minigame):
         self.button='⬛️'
         self.data='null'
         self.donkey='🐴'
-        self.dplace=[]
+        self.dplace=None
         self.dspeed=2
         self.text='Идёт набор в игру! Требуется игроков: '+str(self.playernumber)
         if currentgame==[]:
@@ -85,6 +85,7 @@ class Donkey(Minigame):
     def draw(self):
         g=1
         v=1
+        d=self.dplace
         while g<=self.size[0]:
             buttons=[]
             while v<=self.size[1]:
