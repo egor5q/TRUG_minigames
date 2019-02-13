@@ -47,7 +47,7 @@ class Donkey(Minigame):
         self.playernumber=1
         self.winscore=2
         self.size=[5, 5]
-        self.button='⬛️'
+        self.button='.'
         self.data='null'
         self.donkey='🐴'
         self.dplace=None
