@@ -73,11 +73,12 @@ class Donkey(Minigame):
         else:
             d=self.dplace
         self.draw()
-        self.endturn
+        t=threading.Timer(5, self.endturn)
+        t.start()
         
     def endturn(self):
         self.movedonkey()
-        self.timer=threading.Timer(8, self.begin)
+        self.timer=threading.Timer(5, self.begin)
         self.timer.start()
         
         
@@ -127,6 +128,7 @@ class Donkey(Minigame):
                 if dv<1:
                     dv=self.size[1]
             self.dplace=str(dg)+str(dv)
+            print('self.dplace= '+delf.dplace)
             i+=1
             self.draw()
             time.sleep(1)
