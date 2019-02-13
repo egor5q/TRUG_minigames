@@ -36,6 +36,7 @@ class Minigame:
 class Donkey(Minigame):
     
     def __init__(self, id=-1001058783080):
+        global currentgame
         super().__init__(id)
         self.name='Поймай осла'
         self.code='donkey'
