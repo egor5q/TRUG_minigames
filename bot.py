@@ -105,8 +105,8 @@ class Donkey(Minigame):
             print('g='+str(g))
             buttons=[]
             v=1
-            t=0
             while v<=self.size[1]:
+                t=0
                 print('v='+str(v))
                 for ids in dots:
                     if ids[1]==str(g)+str(v):
