@@ -95,7 +95,7 @@ class Donkey(Minigame):
                     txt=self.donkey
                 buttons.append(types.InlineKeyboardButton(text=txt, callback_data=self.code+' '+str(g)+str(v)))
                 v+=1
-            self.gamekb.add(buttons)
+            self.gamekb.add(*buttons)
             g+=1
         if self.message!=None:
             medit('Угадайте, куда пойдёт осёл:', self.message.chat.id, self.message.message_id, reply_markup=self.gamekb)
