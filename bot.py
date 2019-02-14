@@ -69,6 +69,7 @@ class Donkey(Minigame):
             currentgame.append(self)
         
     def begin(self):
+        global currentgame
         if self.dplace==None:
             g=1    # Горизонталь
             v=1    # Вертикаль
@@ -84,18 +85,30 @@ class Donkey(Minigame):
         self.timer.start()
         
     def endturn(self):
+        global currentgame
         self.stage=2
         self.movedonkey()
         for ids in self.players:
             if self.players[ids].choice==self.dplace:
                 self.players[ids].score+=1
             self.players[ids].choice=None
-        self.timer=threading.Timer(5, self.begin)
-        self.timer.start()
-        self.turn+=1
+        if self.turn<10:
+            self.timer=threading.Timer(5, self.begin)
+            self.timer.start()
+            self.turn+=1
+        else:
+            plist=''
+            for ids in self.players:
+                player=self.players[ids]
+                plist+=player.name+': '+str(player.score)+'🍪\n'
+                trugusers.update_one({'id':player.id},{'$inc':{'cookies':player.score, 'totalcookies.minigames':player.score}})
+            medit(self.message, 'Игра завершена! Полученные куки:\n\n'+plist)
+            currentgame=[]
+            randomgame()
         
         
     def draw(self):
+        global currentgame
         self.gamekb=None
         self.gamekb=types.InlineKeyboardMarkup(self.size[1])
         g=1
@@ -134,6 +147,7 @@ class Donkey(Minigame):
         
         
     def movedonkey(self):
+        global currentgame
         i=0
         lastpos=self.dplace
         while i<self.dspeed:
@@ -177,13 +191,7 @@ class Player:
         self.username=user.username
         self.score=0
         self.choice=None
-        
-        
-    
-@bot.message_handler(commands=['test'])
-def test(m):
-    if m.chat.id!=m.from_user.id:
-        Donkey(m.chat.id)
+       
     
     
     
@@ -213,6 +221,18 @@ def inline(call):
           print('Ошибка:\n', traceback.format_exc())
           bot.send_message(441399484, traceback.format_exc())
         
+def randomgame():
+    x=random.randint(60, 3600)
+    t=threading.Timer(x, startgame)
+    t.start()
+    
+    
+def startgame():
+    Donkey()
+    
+    
+startgame()
+
 
 print('7777')
 bot.polling(none_stop=True,timeout=600)
