@@ -135,6 +135,7 @@ class Donkey(Minigame):
         
     def movedonkey(self):
         i=0
+        lastpos=None
         while i<self.dspeed:
             x=[-1, 1]
             x=random.choice(x)
@@ -154,10 +155,13 @@ class Donkey(Minigame):
                 if dv<1:
                     dv+=2
             self.dplace=str(dg)+str(dv)
-            print('self.dplace= '+self.dplace)
-            i+=1
-            self.draw()
-            time.sleep(1)
+            if self.dplace!=lastpos:
+                i+=1
+                lastpos=str(dg)+str(dv)
+                self.draw()
+                time.sleep(1)
+            
+                
         
         
         
