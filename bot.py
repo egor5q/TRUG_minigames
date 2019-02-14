@@ -103,7 +103,7 @@ class Donkey(Minigame):
                 player=self.players[ids]
                 plist+=player.name+': '+str(player.score)+'🍪\n'
                 trugusers.update_one({'id':player.id},{'$inc':{'cookies':player.score, 'totalcookies.minigames':player.score}})
-            medit(self.message, 'Игра завершена! Полученные куки:\n\n'+plist)
+            medit('Игра завершена! Полученные куки:\n\n'+plist, self.message.chat.id, self.message.message_id)
             currentgame=[]
             randomgame()
         
