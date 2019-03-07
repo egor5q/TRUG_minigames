@@ -160,15 +160,15 @@ class Donkey(Minigame):
             if site=='g':
                 dg+=x
                 if dg>self.size[0]:
-                    dg-=2
+                    dg=1
                 if dg<1:
-                    dg+=2
+                    dg=self.size[0]
             elif site=='v':
                 dv+=x
                 if dv>self.size[1]:
-                    dv-=2
+                    dv=1
                 if dv<1:
-                    dv+=2
+                    dv=self.size[1]
             dplace=str(dg)+str(dv)
             if dplace!=lastpos:
                 i+=1
