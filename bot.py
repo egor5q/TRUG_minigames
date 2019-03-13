@@ -225,11 +225,19 @@ def inline(call):
         if call.data=='join':
             if game.started==False and len(game.players)<len(game.emojis):
                 if user.id not in game.players:
-                    game.players.update({user.id:Player(user)})
-                    x=random.choice(game.emojis)
-                    game.players[user.id].emoji=x
-                    game.emojis.remove(x)
-                    bot.send_message(call.message.chat.id, user.first_name+' присоединился!')
+                    y=1
+                    if user.id!=493430476 and user.id!=264930925:
+                        pass
+                    else:
+                        for ids in game.players:
+                            if game.players[ids].id==493430476 or game.players[ids].id==264930925:
+                                y=0
+                    if y==1:
+                        game.players.update({user.id:Player(user)})
+                        x=random.choice(game.emojis)
+                        game.players[user.id].emoji=x
+                        game.emojis.remove(x)
+                        bot.send_message(call.message.chat.id, user.first_name+' присоединился!')
         elif 'donkey' in call.data:
             if game.stage==1:
                 game.players[user.id].choice=call.data.split(' ')[1]
