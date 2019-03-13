@@ -158,7 +158,7 @@ class Donkey(Minigame):
             g+=1
         scores=''
         for ids in self.players:
-            scores+='['+self.players[ids].emoji+']'+self.players[ids].name+': '+str(self.players[ids].score)+'\n'
+            scores+='['+self.players[ids].emoji+']'+self.players[ids].name+': '+str(self.players[ids].points)+'\n'
         if self.message!=None:
             medit('Угадайте, куда пойдёт осёл.\n\nТекущий ход: '+str(self.turn)+'\nСтадия: '+str(self.stage)+'\nОчки игроков:\n\n'+scores, self.message.chat.id, self.message.message_id, reply_markup=self.gamekb)
         else:
