@@ -44,9 +44,9 @@ class Donkey(Minigame):
         super().__init__(id)
         self.name='Поймай осла'
         self.code='donkey'
-        self.playernumber=3
+        self.playernumber=300
         self.winscore=2
-        self.emojis=['⚫️','🔴','🔵']
+        self.emojis=['⚫️','🔴','🔵','❤️','🧡','💛','💚','💙','💜','🖤','🐶','🐱','🐭','🐯','🐺','🐝','🐗','🐴','🐳','🦃','👻','🐧']
         self.size=[5, 5]    # Горизонталь; вертикаль
         self.gamekb=types.InlineKeyboardMarkup(self.size[1])
         self.button='⬜️'
@@ -54,10 +54,15 @@ class Donkey(Minigame):
         self.donkey='🐴'
         self.dplace=None
         self.dspeed=2
+        self.allscore=0
         self.turn=1
+        self.fond=0
+        s=threading.Timer(180, self.begin)
+        s.start()
+        self.starttimer=s
         self.stage=None
         self.timer=None
-        self.text='Идёт набор в игру! Требуется игроков: '+str(self.playernumber)
+        self.text='Идёт набор в игру! Старт через 3 минуты.'
         if currentgame==[]:
             bot.send_message(self.id, self.text, reply_markup=self.kb)
             currentgame.append(self)
@@ -91,14 +96,27 @@ class Donkey(Minigame):
         self.movedonkey()
         for ids in self.players:
             if self.players[ids].choice==self.dplace:
-                self.players[ids].score+=1
+                self.fond+=1
+                self.players[ids].points+=1
             self.players[ids].choice=None
         if self.turn<10:
             self.timer=threading.Timer(5, self.begin)
             self.timer.start()
             self.turn+=1
         else:
+            self.allscore=self.fond
             plist=''
+            for ids in self.players:
+                player=self.players[ids]
+                player.percent=(player.points/self.fond)
+            for ids in self.players:
+                player=self.players[ids]
+                player.score=int(player.percent*self.fond)
+                self.allscore-=player.score
+                if self.allscore<0:
+                    while self.allscore<0:
+                        player.score-=1
+                        self.allscore+=1
             for ids in self.players:
                 player=self.players[ids]
                 plist+=player.name+': '+str(player.score)+'🍪\n'
@@ -192,6 +210,8 @@ class Player:
         self.username=user.username
         self.score=0
         self.choice=None
+        self.points=0
+        self.percent=0
        
     
     
@@ -203,15 +223,13 @@ def inline(call):
         game=currentgame[0]
         user=call.from_user
         if call.data=='join':
-            if game.started==False and len(game.players)<game.playernumber:
+            if game.started==False and len(game.players)<len(game.emojis):
                 if user.id not in game.players:
                     game.players.update({user.id:Player(user)})
                     x=random.choice(game.emojis)
                     game.players[user.id].emoji=x
                     game.emojis.remove(x)
                     bot.send_message(call.message.chat.id, user.first_name+' присоединился!')
-                    if len(game.players)==game.playernumber:
-                        game.begin()
         elif 'donkey' in call.data:
             if game.stage==1:
                 game.players[user.id].choice=call.data.split(' ')[1]
