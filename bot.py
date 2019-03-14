@@ -108,7 +108,10 @@ class Donkey(Minigame):
             plist=''
             for ids in self.players:
                 player=self.players[ids]
-                player.percent=(player.points/self.fond)
+                try:
+                    player.percent=(player.points/self.fond)
+                except:
+                    player.percent=0
             for ids in self.players:
                 player=self.players[ids]
                 player.score=int(player.percent*self.fond)
