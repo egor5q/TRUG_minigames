@@ -240,7 +240,7 @@ def inline(call):
                         x=random.choice(game.emojis)
                         game.players[user.id].emoji=x
                         game.emojis.remove(x)
-                        bot.send_message(call.message.chat.id, user.first_name+' присоединился!')
+                        bot.send_message(call.message.chat.id, user.first_name+' присоединился! (id: '+str(user.id)+')')
         elif 'donkey' in call.data:
             if game.stage==1:
                 game.players[user.id].choice=call.data.split(' ')[1]
